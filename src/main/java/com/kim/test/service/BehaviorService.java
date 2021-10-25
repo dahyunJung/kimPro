@@ -19,13 +19,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class BehaviorService implements BehaviorDAO {
-
-    @Autowired
-    private BehaviorMapper behaviorMapper;
-
+public class BehaviorService {
     private final Path fileLocation;
-
 
     // 디렉토리 기본 설정, 생성
     @Autowired
@@ -53,6 +48,7 @@ public class BehaviorService implements BehaviorDAO {
     }
 
 
+/*
     @Override
     public void insertBehavior(BehaviorDTO behaviorDTO){
         behaviorMapper.insertBehavior(behaviorDTO);
@@ -62,7 +58,9 @@ public class BehaviorService implements BehaviorDAO {
     public List<BehaviorDTO> findAllBehavior(){
         return behaviorMapper.findAllBehavior();
     }
+ */
 
+    /*
     @Override
     public List<BehaviorDTO> findByBehavior(String cctv_name){
         return behaviorMapper.findByBehavior(cctv_name);
@@ -76,6 +74,8 @@ public class BehaviorService implements BehaviorDAO {
     public String getImg(String cctv_name, String regdate){
         return behaviorMapper.getImg(cctv_name, regdate);
     }
+
+     */
 
 
 }
