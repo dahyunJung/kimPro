@@ -34,16 +34,15 @@ public class BehaviorController{
     // 이상행동 감지 시 db에 추가
     @PostMapping("/add-behavior")
     public void uploadBehavior(BehaviorDTO behaviorDTO,
-                               @RequestParam("image") MultipartFile file){
+                               @RequestParam("image") MultipartFile file)throws IOException{
         if (file.isEmpty()){
-            behaviorDTO.setFile("none");
+            behaviorDTO.setFile(null);
         }
         else{
             String fileName = behaviorService.storeFile(file);
             behaviorDTO.setFile(fileName);
         }
 
-        //behaviorService.insertBehavior(behaviorDTO);
         behaviorMapper.insertBehavior(behaviorDTO);
         log.info("POST BEHAVIOR");
     }
@@ -53,7 +52,6 @@ public class BehaviorController{
     public List<BehaviorDTO> findAllBehavior(){
         log.info("GET All Behaviorlist");
         return behaviorMapper.findAllBehavior();
-        //return behaviorService.findAllBehavior();
     }
 
     @GetMapping(value = "/list/{file}", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -61,10 +59,9 @@ public class BehaviorController{
         InputStream imageStream = new FileInputStream("/root/app/step1/pic/" + file);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
-        log.info("pic");
+        log.info("picture: " + file);
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
     }
-
 
 
  /*
