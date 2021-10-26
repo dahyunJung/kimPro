@@ -4,10 +4,18 @@ import com.kim.test.domain.BehaviorDTO;
 import com.kim.test.mapper.BehaviorMapper;
 import com.kim.test.service.BehaviorService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -47,6 +55,17 @@ public class BehaviorController{
         return behaviorMapper.findAllBehavior();
         //return behaviorService.findAllBehavior();
     }
+
+    @GetMapping(value = "/list/{file}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> userSearch(@PathVariable("file") String file) throws IOException {
+        InputStream imageStream = new FileInputStream("/root/app/step1/pic/" + file);
+        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+        imageStream.close();
+        log.info("pic");
+        return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+    }
+
+
 
  /*
     // 특정 cctv에서 일어난 이상행동 전체 리스트 얻어오기

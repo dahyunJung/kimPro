@@ -36,12 +36,15 @@ public class BehaviorService {
 
     // 파일 저장 소스
     public String storeFile(MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = file.getOriginalFilename();
+        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
         try{
             // 파일을 저장할 경로를 Path 객체로 받는다
             Path targetLocation = this.fileLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            return targetLocation.toString();
+            return fileName;
+            //return targetLocation.toString();
         } catch (Exception e) {
             throw new FileUploadException("fail", e);
         }
