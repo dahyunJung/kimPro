@@ -44,7 +44,7 @@ public class BehaviorController{
         }
 
         behaviorMapper.insertBehavior(behaviorDTO);
-        log.info("POST BEHAVIOR");
+        log.info("POST BEHAVIOR: " + behaviorDTO.getRegdate());
     }
 
     // 이상행동 전체 리스트 얻어오기
@@ -59,7 +59,7 @@ public class BehaviorController{
         InputStream imageStream = new FileInputStream("/root/app/step1/pic/" + file);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
-        log.info("picture: " + file);
+        log.info("GET PICTURE: " + file);
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
     }
 
