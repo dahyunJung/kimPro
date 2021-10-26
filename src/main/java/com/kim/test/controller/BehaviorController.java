@@ -10,18 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "*")
 @Slf4j
 @RestController
-@RequestMapping(value = "/behavior")
 public class BehaviorController{
 
     @Autowired
@@ -30,9 +33,12 @@ public class BehaviorController{
     @Autowired
     private BehaviorMapper behaviorMapper;
 
+    @Autowired
+    private SimpMessagingTemplate websocket;
+
 
     // 이상행동 감지 시 db에 추가
-    @PostMapping("/add-behavior")
+    @PostMapping("/behavior/add-behavior")
     public void uploadBehavior(BehaviorDTO behaviorDTO,
                                @RequestParam("image") MultipartFile file)throws IOException{
         if (file.isEmpty()){
@@ -44,17 +50,18 @@ public class BehaviorController{
         }
 
         behaviorMapper.insertBehavior(behaviorDTO);
+        websocket.convertAndSend("/topics/template", "Template");
         log.info("POST BEHAVIOR: " + behaviorDTO.getRegdate());
     }
 
     // 이상행동 전체 리스트 얻어오기
-    @GetMapping("/list")
+    @GetMapping("/behavior/list")
     public List<BehaviorDTO> findAllBehavior(){
         log.info("GET All Behaviorlist");
         return behaviorMapper.findAllBehavior();
     }
 
-    @GetMapping(value = "/list/{file}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/behavior/list/{file}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> userSearch(@PathVariable("file") String file) throws IOException {
         InputStream imageStream = new FileInputStream("/root/app/step1/pic/" + file);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);

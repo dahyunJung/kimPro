@@ -1,4 +1,4 @@
-package com.kim.test.Exception;
+package com.kim.test.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
