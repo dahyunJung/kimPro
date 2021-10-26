@@ -1,5 +1,6 @@
 package com.kim.test.socket;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class TestController {
@@ -18,18 +20,14 @@ public class TestController {
     @MessageMapping("/sendTo")
     @SendTo("/topics/sendTo")
     public String SendToMessage() throws Exception{
+        log.info("sendTo");
         return "상황발생";
     }
 
-    @MessageMapping("/template")
+    @MessageMapping("/Template")
     public void SendTemplateMessage(){
-        websocket.convertAndSend("/topics/template", "template");
+        log.info("template");
+        websocket.convertAndSend("/topics/template", "Template");
     }
-
-    @RequestMapping("/api")
-    public void SendAPI(){
-        websocket.convertAndSend("/topics/api", "api");
-    }
-
 
 }
