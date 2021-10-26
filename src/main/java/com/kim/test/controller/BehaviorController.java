@@ -39,6 +39,7 @@ public class BehaviorController{
 
     // 이상행동 감지 시 db에 추가
     @PostMapping("/behavior/add-behavior")
+    @SendTo("/Template")
     public void uploadBehavior(BehaviorDTO behaviorDTO,
                                @RequestParam("image") MultipartFile file)throws IOException{
         if (file.isEmpty()){
@@ -50,7 +51,7 @@ public class BehaviorController{
         }
 
         behaviorMapper.insertBehavior(behaviorDTO);
-        websocket.convertAndSend("/topics/template", "Template");
+        websocket.convertAndSend("/topics/template", behaviorDTO.getCctv() + ", 상활발생: "+behaviorDTO.getRegdate());
         log.info("POST BEHAVIOR: " + behaviorDTO.getRegdate());
     }
 
