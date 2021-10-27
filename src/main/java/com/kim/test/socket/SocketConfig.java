@@ -1,7 +1,7 @@
 package com.kim.test.socket;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -9,8 +9,8 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Slf4j
+@Configuration
 @Controller
-@Configurable
 @EnableWebSocketMessageBroker
 public class SocketConfig implements WebSocketMessageBrokerConfigurer {
 
@@ -19,10 +19,9 @@ public class SocketConfig implements WebSocketMessageBrokerConfigurer {
         config.enableSimpleBroker("/topic");
     }
 
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
-        registry.addEndpoint("/socket")
+        registry.addEndpoint("/test")
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
         log.info("socket");

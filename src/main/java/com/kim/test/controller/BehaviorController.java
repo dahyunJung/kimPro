@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class BehaviorController{
 
     // 이상행동 감지 시 db에 추가
     @PostMapping("/behavior/add-behavior")
-    @SendTo("/Template")
+    @MessageMapping("/Template")
     public void uploadBehavior(BehaviorDTO behaviorDTO,
                                @RequestParam("image") MultipartFile file)throws IOException{
         if (file.isEmpty()){
@@ -54,6 +56,7 @@ public class BehaviorController{
         websocket.convertAndSend("/topics/template", behaviorDTO.getCctv() + ", 상활발생: "+behaviorDTO.getRegdate());
         log.info("POST BEHAVIOR: " + behaviorDTO.getRegdate());
     }
+
 
     // 이상행동 전체 리스트 얻어오기
     @GetMapping("/behavior/list")
