@@ -2,9 +2,6 @@ package com.kim.test.domain;
 
 import lombok.Data;
 
-//@Getter
-//@Setter
-//@AllArgsConstructor
 @Data
 public class BehaviorDTO {
     private int id;             // 이상행동 고유번호

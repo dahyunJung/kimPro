@@ -11,6 +11,4 @@ public interface BehaviorDAO {
     public void insertBehavior(BehaviorDTO behaviorDTO);
     public List<BehaviorDTO> findAllBehavior();
 
-    //public List<BehaviorDTO> findByBehavior(String cctv_name);
-    //public List<BehaviorDTO> findByBehaviorTime(String cctv_name, String regdate);
 }
